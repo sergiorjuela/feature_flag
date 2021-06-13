@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.FeatureManagement;
+using Microsoft.FeatureManagement.FeatureFilters;
 
 namespace app_config_web
 {
@@ -24,6 +25,7 @@ namespace app_config_web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddAzureAppConfiguration();
             services.AddFeatureManagement();
         }
 
@@ -38,6 +40,8 @@ namespace app_config_web
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.UseAzureAppConfiguration();
 
             app.UseStaticFiles();
 

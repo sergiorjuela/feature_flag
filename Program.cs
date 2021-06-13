@@ -30,8 +30,16 @@ namespace app_config_web
                         // use las opciones de App Configuration
                         config.AddAzureAppConfiguration(options =>
                             options.Connect(connection)
+                                // Refresh
+                                .ConfigureRefresh(refresh =>
+                                {
+                                    refresh.Register("TestApp:Settings:Sentinel", refreshAll: true);
+                                })
                                 // use feature flags
-                                .UseFeatureFlags());
+                                .UseFeatureFlags(featureFlagOptions => {
+                                    featureFlagOptions.CacheExpirationInterval = TimeSpan.FromSeconds(30);
+                                })
+                            );
                     }).UseStartup<Startup>());
     }
 }
